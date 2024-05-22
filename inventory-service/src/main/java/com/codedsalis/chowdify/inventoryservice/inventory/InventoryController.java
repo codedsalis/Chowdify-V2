@@ -21,7 +21,7 @@ public class InventoryController {
     @PostMapping("/{skuCode}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ChowdifyResponse> checkInStock(@PathVariable String skuCode) {
-        Boolean isInStock = inventoryService.isInstock(skuCode);
+        Boolean isInStock = inventoryService.isInStock(skuCode);
 
         HashMap<String, Object> res = new HashMap<>();
         res.put("inStock", isInStock);

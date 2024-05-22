@@ -1,15 +1,17 @@
 package com.codedsalis.chowdify.inventoryservice.inventory;
 
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
 public class InventoryService {
 
     private final InventoryRepository inventoryRepository;
 
-    public Boolean isInstock(String skuCode) {
+    public InventoryService(InventoryRepository inventoryRepository) {
+        this.inventoryRepository = inventoryRepository;
+    }
+
+    public Boolean isInStock(String skuCode) {
         return inventoryRepository.existsBySkuCode(skuCode);
     }
 }
