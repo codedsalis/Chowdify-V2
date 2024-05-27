@@ -1,6 +1,7 @@
 package com.codedsalis.chowdify.orderservice.order;
 
 import com.codedsalis.chowdify.orderservice.order.dto.OrderDto;
+import com.codedsalis.chowdify.orderservice.order.dto.OrderRequestDto;
 import com.codedsalis.chowdify.orderservice.shared.BaseController;
 import com.codedsalis.chowdify.orderservice.shared.ChowdifyResponse;
 import com.codedsalis.chowdify.orderservice.shared.Statuses;
@@ -26,11 +27,20 @@ public class OrdersController extends BaseController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> placeOrder(@Valid @RequestBody OrderDto orderDto) {
-        orderService.createOrder(orderDto);
+    public ResponseEntity<ChowdifyResponse> placeOrder(@Valid @RequestBody OrderDto orderDto) {
+        var orderResponse = orderService.placeOrder(orderDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Order created successfully");
+        HashMap<String, Object> data = new HashMap<>();
+        data.put(orderResponse.getData() instanceof Order ? "order" : "unAvailable", orderResponse.getData());
+
+        ChowdifyResponse chowdifyResponse = ChowdifyResponse.builder()
+                .status(orderResponse.getData() instanceof Order ? Statuses.success : Statuses.error)
+                .statusCode(orderResponse.getData() instanceof Order ? HttpStatus.CREATED.value() : HttpStatus.UNPROCESSABLE_ENTITY.value())
+                .data(data)
+                .build();
+
+        return ResponseEntity.status(orderResponse.getData() instanceof Order ? HttpStatus.CREATED : HttpStatus.UNPROCESSABLE_ENTITY)
+                .body(chowdifyResponse);
     }
 
     @GetMapping("/{id}")

@@ -24,4 +24,13 @@ public class Order extends BaseModel {
     @OneToMany(cascade = CascadeType.ALL)
     private List<OrderLineItems> orderLineItems;
 
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String deliveryAddress;
+
 }

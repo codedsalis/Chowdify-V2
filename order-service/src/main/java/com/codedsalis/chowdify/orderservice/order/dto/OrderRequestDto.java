@@ -1,15 +1,20 @@
 package com.codedsalis.chowdify.orderservice.order.dto;
 
+import com.codedsalis.chowdify.orderservice.order.OrderLineItems;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
-import java.util.Objects;
 
 @Data
-public final class OrderDto {
+@AllArgsConstructor
+public class OrderRequestDto {
+
+    @Valid
+
     @NotNull
     private String name;
 
@@ -20,10 +25,6 @@ public final class OrderDto {
     @NotNull
     private String deliveryAddress;
 
-    @Valid
-    private final String orderNumber;
-
     @NotNull
-    private final List<OrderLineItemsDto> orderLineItems;
-
+    private List<OrderLineItemsDto> orderLineItems;
 }

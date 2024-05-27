@@ -26,7 +26,7 @@ public class Product extends BaseModel {
     @Column(nullable = false)
     private Map<String, Object> images;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String skuCode;
 
 }
